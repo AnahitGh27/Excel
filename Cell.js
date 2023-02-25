@@ -8,50 +8,59 @@ const Color = {
 
 class Cell 
 {
-    #value;
-    #color;
+    value;
+    color;
     constructor(...args) {
         if (args.length === 0) {
-            this.#value = "";
-            this.#color = 0;
+            this.value = "";
+            this.color = 0;
         } else if(args.length === 1) {
-            this.setValue(args[0].toString());
-            this.#color = 0;
+            this.setValue(args[0]);
+            this.color = 0;
         } else {
-            this.#value = args[0].toString();
+            this.setValue(args[0]);
             this.setColor(args[1]);
         }
     }
 
-    setValue(val) { this.#value = val.toString(); }
-    setColor(color) {
-        if (typeof(color) === "string") { this.#color = Color[color.toUpperCase()]; }
-        else { this.#color = 0; }
+    setValue(val) { 
+        this.value = String(val);
     }
-    getValue() { return this.#value; }
 
-    getColor() { return this.#color; }
+    setColor(color) {
+        if (typeof(color) === "string") {
+            if (color.toUpperCase() in Color) {
+                this.color = Color[color.toUpperCase()]; 
+            } else { this.color = 0; }
+        }
+    }
+
+    getValue() { return this.value; }
+
+    getColor() { return this.color; }
 
     toInt() {
-        if (Number(this.#value)) {
-            parseInt(this.#value);
+        if (Number(this.value)) {
+            parseInt(this.value);
         } else { return -1; }
-    }
-    toDouble() {
-        if (Number(this.#value)) {
-            parseFloat(this.#value);
-        } else { return -1; }
-    }
-    toDate() {
-        if (Date.parse(this.#value)) {
-            this.#value = new Date(this.#value);
-        } else { return -1; }
-    }
-    reset() {
-        this.#value = "";
-        this.#color = 0;
     }
 
+    toDouble() {
+        if (Number(this.value)) {
+            parseFloat(this.value);
+        } else { return -1; }
+    }
+
+    toDate() {
+        if (Date.parse(this.value)) {
+            this.value = new Date(this.value);
+        } else { return -1; }
+    }
+
+    reset() {
+        this.value = "";
+        this.color = 0;
+    }
 }
 
 export { Cell, Color };
